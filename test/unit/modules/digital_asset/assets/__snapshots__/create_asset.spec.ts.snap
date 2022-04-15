@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CreateAsset constructor should have valid schema 1`] = `
+Object {
+  "$id": "digitalAsset/create-asset",
+  "properties": Object {
+    "fileHash": Object {
+      "dataType": "bytes",
+      "fieldNumber": 3,
+    },
+    "fileName": Object {
+      "dataType": "string",
+      "fieldNumber": 1,
+      "maxLength": 64,
+    },
+    "fileSize": Object {
+      "dataType": "uint32",
+      "fieldNumber": 2,
+    },
+    "merkleHeight": Object {
+      "dataType": "uint32",
+      "fieldNumber": 5,
+    },
+    "merkleRoot": Object {
+      "dataType": "bytes",
+      "fieldNumber": 4,
+    },
+    "secret": Object {
+      "dataType": "string",
+      "fieldNumber": 6,
+    },
+  },
+  "required": Array [
+    "fileName",
+    "fileSize",
+    "fileHash",
+    "merkleRoot",
+    "merkleHeight",
+    "secret",
+  ],
+  "title": "CreateAsset transaction asset for digitalAsset module",
+  "type": "object",
+}
+`;
