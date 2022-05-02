@@ -36,14 +36,58 @@ Maggiori dettagli sulle transazioni e su come crearle su
  - ##### 1.1.1 Create
  con questa transazione viene creato un nuovo elemento nello state store della blockchain.
  
+ L'asset di questa transazione deve avere il seguente tipo:
+ 
+  ```
+  create = {
+      fileName:string, //nome del file
+      fileSize:number,  //dimensione del file
+      fileHash:Buffer,  //sha256 del file
+      merkleRoot:Buffer,  //merkleRoot del merkle three costruito con i chunks del file
+      merkleHeight:number,
+      secret:string //chiave simmetrica utilizzata per cifrare i chunks, cifrata con la chiave pubblica del wallet
+  }
+  
+  ```
+ 
  - ##### 1.1.2 Request
  con questa transazione viene richiesto l'accesso o la proprietà di un asset.
  
+ L'asset di questa transazione deve avere il seguente tipo:
+ 
+  ```
+  type request = {
+      merkleRoot: Buffer, // il merle root, identificativo del file che si vuole richiedere
+      mode: string  // "VIEW" o "OWN"
+  }
+  ```
  - ##### 1.1.3 Response
  con questa transazione si risponde ad una richiesta, autorizzandola o negandola.
  
+ L'asset di questa transazione deve avere il seguente tipo:
+ 
+  ```
+  type response = {
+      address: Buffer, // indirizzo che ha richiesto accesso al file
+      merkleRoot: Buffer, // il merle root, identificativo del file 
+      response: string, // "OK" o "KO"
+      newSecret: string //chiave simmetrica utilizzata per cifrare i chunks, cifrata con la chiave pubblica del wallet del richiedente
+  }
+  ```
  - ##### 1.1.4 Claim
  con questa transazione si diventa nuovi proprietari di un asset, dopo averne richiesto la proprietà al proprietario precedente ed averne ricevuto l'approvazione.
+ 
+ L'asset di questa transazione deve avere il seguente tipo:
+ 
+  ```
+  type claim = {
+      oldMerkleRoot: Buffer, // il merle root, identificativo del file che si vuole richiedere
+      newMerkleRoot: Buffer, // nuovo merkle root, calcolato con i chunks cifrati con la nuova chiave simmetrica
+      newMerkleHeight: number,
+      newHosts: Buffer[], //hosts sui quali sono stati caricati i nuovi chunks
+      newSecret: string //nuova chiave simmetrica utilizzata per cifrare i chunks, cifrata con la chiave pubblica del wallet 
+  }
+  ```
  
 #### 1.2 Le Actions
 
@@ -115,3 +159,8 @@ Dettagli su come invocare una actions su [questa pagina](https://lisk.com/docume
   > - allowed: la lista di files per i quali l'indirizzo specificato ha richiesto l'accesso (non la proprietà) ed ottenuto l'autorizzazione;
   
   > - myFiles: la lista di files di cui l'indirizzo specificato è il proprietario.
+  
+#### 1.3 Plugins
+
+I plugins sono componenti esterni alla blockchain, ma che possono interagire con essa e fornire funzionalità aggiuntive. Maggiori informazioni sui plugins su [questa pagina](https://lisk.com/documentation/lisk-sdk/introduction/plugins.html).
+
