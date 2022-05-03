@@ -31,10 +31,25 @@ export interface BitagoraAccountProps extends BaseAccountProps{
 interface BaseAccountProps {
     token:{
         balance: number
-      },
-      sequence: {
+    },
+    sequence: {
         nonce: number
-      },
+    }
+}
+
+export const accountNonceBalanceSchema = {
+	$id: 'lisk/infos/accountNonceBalance',
+    type: 'object',
+    properties: {
+        nonce: {
+            dataType: 'uint64',
+            fieldNumber: 1
+        },
+        balance: {
+            dataType: 'uint64',
+            fieldNumber: 2
+        }
+    }
 }
 
 export const infosSchema = {

@@ -23,9 +23,9 @@ import {
     AfterGenesisBlockApplyContext, BaseModule,
 
 
-    BeforeBlockApplyContext, StateStore, TransactionApplyContext
+    BeforeBlockApplyContext, codec, StateStore, TransactionApplyContext
 } from 'lisk-sdk';
-import { BitagoraAccountProps, infosSchema } from '../../schemas/account';
+import { accountNonceBalanceSchema, BitagoraAccountProps, infosSchema } from '../../schemas/account';
 import { RegisterAsset } from "./assets/register_asset";
 
 export class InfosModule extends BaseModule {
@@ -48,9 +48,12 @@ export class InfosModule extends BaseModule {
             } 
             const account = await this._dataAccess.getAccountByAddress<BitagoraAccountProps>(address as Buffer);
             //return JSON.stringify(account);
-            console.log(account)
-            console.log(account.sequence)
-            return 0;
+            
+        
+            return codec.toJSON(accountNonceBalanceSchema, {
+                balance: account.token.balance,
+                nonce: account.sequence.nonce
+            });
         },
     };
     public reducers = {
