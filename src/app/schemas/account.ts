@@ -1,4 +1,4 @@
-export interface BitagoraAccountProps {
+export interface BitagoraAccountProps extends BaseAccountProps{
     infos: {
         myNeighbors: {
             address: Buffer,
@@ -26,6 +26,15 @@ export interface BitagoraAccountProps {
             secret:string
         }[],
     }
+}
+
+interface BaseAccountProps {
+    token:{
+        balance: number
+      },
+      sequence: {
+        nonce: number
+      },
 }
 
 export const infosSchema = {

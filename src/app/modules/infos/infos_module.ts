@@ -41,14 +41,14 @@ export class InfosModule extends BaseModule {
             const account = await this._dataAccess.getAccountByAddress<BitagoraAccountProps>(address as Buffer);
             return account.infos;
         },
-        getAccount:async (params:Record<string, unknown>) => {
+        getAccountNonce:async (params:Record<string, unknown>) => {
             let { address } = params;
             if (!Buffer.isBuffer(address) && typeof address === 'string') {
                 address = Buffer.from(address, 'hex')
             } 
             const account = await this._dataAccess.getAccountByAddress<BitagoraAccountProps>(address as Buffer);
-            // return JSON.stringify(account);
-            return account;
+            //return JSON.stringify(account);
+            return account.sequence;
         },
     };
     public reducers = {
