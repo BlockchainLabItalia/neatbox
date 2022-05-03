@@ -2225,7 +2225,7 @@
 	},
 	"plugins": {
 		"dashboard": {
-			"applicationUrl": "ws://localhost:8080/ws",
+			"applicationUrl": "wss://api.neatbox.it/ws",
 			"port": 4005,
 			"host": "0.0.0.0",
 			"applicationName": "NeatBox"
@@ -2236,7 +2236,7 @@
 			"captchaSecretkey": "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe",
 			"port": 4004,
 			"host": "0.0.0.0",
-			"applicationUrl": "ws://localhost:8080/ws",
+			"applicationUrl": "wss://api.neatbox.it/ws",
 			"fee": "0.1",
 			"amount": "100",
 			"tokenPrefix": "lsk"
