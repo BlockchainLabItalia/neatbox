@@ -48,7 +48,9 @@ export class InfosModule extends BaseModule {
             } 
             const account = await this._dataAccess.getAccountByAddress<BitagoraAccountProps>(address as Buffer);
             //return JSON.stringify(account);
-            return account.sequence;
+            console.log(account)
+            console.log(account.sequence)
+            return 0;
         },
     };
     public reducers = {
