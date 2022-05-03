@@ -1,5 +1,5 @@
 {
-	"name": "bitagora",
+	"name": "neatbox",
 	"version": "0.1.0",
 	"description": "Lisk based cloud storage",
 	"author": "paolo",
@@ -33,13 +33,13 @@
 		"prepublishOnly": "npm ci && npm run lint && npm run build"
 	},
 	"bin": {
-		"bitagora": "./bin/run"
+		"neatbox": "./bin/run"
 	},
 	"lisk": {
 		"addressPrefix": "lsk"
 	},
 	"oclif": {
-		"bin": "bitagora",
+		"bin": "neatbox",
 		"commands": "./dist/commands",
 		"plugins": [
 			"@oclif/plugin-autocomplete",
@@ -47,40 +47,40 @@
 		],
 		"topics": {
 			"account": {
-				"description": "Commands relating to bitagora accounts."
+				"description": "Commands relating to neatbox accounts."
 			},
 			"block": {
-				"description": "Commands relating to bitagora blocks."
+				"description": "Commands relating to neatbox blocks."
 			},
 			"blockchain": {
-				"description": "Commands relating to bitagora blockchain data."
+				"description": "Commands relating to neatbox blockchain data."
 			},
 			"console": {
-				"description": "bitagora interactive REPL session to run commands."
+				"description": "neatbox interactive REPL session to run commands."
 			},
 			"config": {
-				"description": "Commands relating to bitagora node configuration."
+				"description": "Commands relating to neatbox node configuration."
 			},
 			"forger-info": {
-				"description": "Commands relating to bitagora forger-info data."
+				"description": "Commands relating to neatbox forger-info data."
 			},
 			"forging": {
-				"description": "Commands relating to bitagora forging."
+				"description": "Commands relating to neatbox forging."
 			},
 			"hash-onion": {
 				"description": "Create hash onions to be used by the forger."
 			},
 			"node": {
-				"description": "Commands relating to bitagora node."
+				"description": "Commands relating to neatbox node."
 			},
 			"passphrase": {
-				"description": "Commands relating to bitagora passphrases."
+				"description": "Commands relating to neatbox passphrases."
 			},
 			"sdk": {
 				"description": "Commands relating to Lisk SDK development."
 			},
 			"transaction": {
-				"description": "Commands relating to bitagora transactions."
+				"description": "Commands relating to neatbox transactions."
 			}
 		}
 	},

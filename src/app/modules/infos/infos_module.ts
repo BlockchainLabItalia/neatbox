@@ -47,7 +47,8 @@ export class InfosModule extends BaseModule {
                 address = Buffer.from(address, 'hex')
             } 
             const account = await this._dataAccess.getAccountByAddress<BitagoraAccountProps>(address as Buffer);
-            return JSON.stringify(account);
+            // return JSON.stringify(account);
+            return account;
         },
     };
     public reducers = {
