@@ -80,15 +80,26 @@ export const getAllChunks = async (stateStore: StateStore) => {
 }
 
 export const _getChunkByMerkleRoot = async (dataAccess: BaseModuleDataAccess, merkleRoot: Buffer) => {
-    const chunks = await _getAllJSONChunks(dataAccess) as registered_chunks; 
+    const registeredChunksBuffer = await dataAccess.getChainState(
+        CHAIN_STATE_CHUNKS
+    );
+    
+    if (!registeredChunksBuffer) {
+        return [];
+    }
+    
+    const registeredChunks = codec.decode<registered_chunks>(
+        registeredChunksSchema,
+        registeredChunksBuffer
+    );
 
-    const c_index: number = chunks.chunks.findIndex((t) => t.merkleRoot.equals(merkleRoot));
+    const c_index: number = registeredChunks.chunks.findIndex((t) => t.merkleRoot.equals(merkleRoot));
 
     if (c_index < 0) {
         throw new Error("Asset not found");
     }
 
-    return chunks[c_index];    
+    return registeredChunks.chunks[c_index];    
 }
 
 export const _getAllJSONChunks =async (dataAccess: BaseModuleDataAccess) => {
