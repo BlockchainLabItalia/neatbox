@@ -26,6 +26,7 @@ import {
     BeforeBlockApplyContext, codec, TransactionApplyContext
 } from 'lisk-sdk';
 import { BitagoraAccountProps, digitalAssetAccountSchema } from '../../schemas/account';
+import { chunkSchema } from '../../schemas/chunks/chunk_schemas';
 import { digitalAssetSchema } from '../../schemas/digital_asset/digital_asset_schemas';
 import { digitalAsset } from '../../schemas/digital_asset/digital_asset_types';
 import { ClaimAsset } from "./assets/claim_asset";
@@ -33,7 +34,7 @@ import { CreateAsset } from "./assets/create_asset";
 import { RequestAsset } from "./assets/request_asset";
 import { ResponseAsset } from "./assets/response_asset";
 import { _getAllJSONAssets, _getAssetByMerkleRoot, _getAssetHistoryByMerkleRoot } from './utils/assets';
-import { _getAllJSONChunks } from './utils/chunks';
+import { _getAllJSONChunks, _getChunkByMerkleRoot } from './utils/chunks';
 
 export class DigitalAssetModule extends BaseModule {
     public actions = {
@@ -61,6 +62,16 @@ export class DigitalAssetModule extends BaseModule {
             const asset = await _getAssetByMerkleRoot(this._dataAccess, merkleRoot as Buffer);
             //return JSON.stringify(asset);
             return codec.toJSON(digitalAssetSchema, asset)
+        },
+        
+        getAssetDetail:async (params:Record<string, unknown>): Promise<object> => {
+            let { merkleRoot } = params;
+            if (!Buffer.isBuffer(merkleRoot) && typeof merkleRoot === 'string') {
+                merkleRoot = Buffer.from(merkleRoot, 'hex')
+            } 
+            const asset = await _getChunkByMerkleRoot(this._dataAccess, merkleRoot as Buffer);
+            //return JSON.stringify(asset);
+            return codec.toJSON(chunkSchema, asset)
         },
 
         getAssetOwner: async(params: Record<string, unknown>): Promise<string> => {

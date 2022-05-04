@@ -80,6 +80,12 @@ export class ResponseAsset extends BaseAsset {
 		
 		let req = responseToAccount.digitalAsset.pending.splice(index_a);
 
+		const index_b: number = senderAccount.digitalAsset.requested_to_me.findIndex((t) => t.merkleRoot.equals(asset.merkleRoot) && t.address.equals(asset.address));
+		if (index_b<0) {
+			throw new Error("This address did not request this asset")
+		}
+		senderAccount.digitalAsset.requested_to_me.splice(index_b);
+
 		if(asset.response === response_type.ok) {
 			chunk.requestedBy[index].status = request_status.accepted;
 
@@ -114,5 +120,6 @@ export class ResponseAsset extends BaseAsset {
 		await updateChunk(stateStore, chunk);
 
 		await stateStore.account.set(responseToAccount.address, responseToAccount).catch();
+		await stateStore.account.set(senderAddress, senderAccount).catch();
 	}
 }

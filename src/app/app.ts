@@ -16,6 +16,7 @@ export const getApplication = (
 				pending: [],
 				allowed: [],
 				myFiles: [],
+				requested_to_me: []
 			},
 			infos: {
 				myNeighbors: [],

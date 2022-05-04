@@ -1,3 +1,4 @@
+
 import { BaseAsset, ApplyAssetContext, ValidateAssetContext } from 'lisk-sdk';
 import { BitagoraAccountProps } from '../../../schemas/account';
 import { request_object } from '../../../schemas/chunks/chunk_types';
@@ -75,9 +76,18 @@ export class RequestAsset extends BaseAsset {
 			fileName: da.fileName,
 			merkleRoot: asset.merkleRoot
 		});
+		
+		const ownerAccount = await stateStore.account.get<BitagoraAccountProps>(da.owner);
+		ownerAccount.digitalAsset.requested_to_me.push({
+			fileName: da.fileName,
+			merkleRoot: asset.merkleRoot,
+			address: senderAddress,
+			mode: asset.mode
+		})
 
 		await updateChunk(stateStore, chunk);
 
 		await stateStore.account.set(senderAccount.address, senderAccount).catch();
+		await stateStore.account.set(ownerAccount.address, ownerAccount).catch();
 	}
 }

@@ -76,3 +76,72 @@ export const registeredChunksSchema = {
 	  }
 	}
 }
+
+export const chunkSchema = {
+	$id: 'lisk/chunks/chunk',
+	type: 'object',
+	required: ['owner', 'merkleRoot', 'hostedBy', 'allowedViewers'],
+	properties: {
+		owner: {
+			dataType: 'bytes',
+			fieldNumber: 1
+		},
+		merkleRoot: {
+			dataType: 'bytes',
+			fieldNumber: 2
+		},
+		hostedBy: {
+			type: 'array',
+			fieldNumber: 3,
+			items: {
+				dataType: 'bytes'
+			}
+		},
+		requestedBy: {
+			type: 'array',
+			fieldNumber: 4,
+			items: {
+				type: 'object',
+				properties: {
+					address: {
+						dataType: 'bytes',
+						fieldNumber: 1
+					},
+					requestTransaction: {
+						dataType: 'bytes',
+						fieldNumber: 2
+					},
+					responseTransaction: {
+						dataType: 'bytes',
+						fieldNumber: 3
+					},
+					requestType: {
+						dataType: 'string',
+						fieldNumber: 4
+					},
+					status: {
+						dataType: 'string',
+						fieldNumber: 5
+					}
+				}
+			}
+		},
+		allowedViewers: {
+			type: 'array',
+			fieldNumber: 5,
+			items: {
+				type: 'object',
+				properties: {
+					address: {
+						dataType: 'bytes',
+						fieldNumber: 1
+					},
+					secret: {
+						dataType: 'string',
+						fieldNumber: 2
+					},
+				}
+			}
+		}
+	},
+};
