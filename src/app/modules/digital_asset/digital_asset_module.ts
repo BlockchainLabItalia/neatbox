@@ -89,7 +89,7 @@ export class DigitalAssetModule extends BaseModule {
                 address = Buffer.from(address, 'hex')
             } 
             const account = await this._dataAccess.getAccountByAddress<BitagoraAccountProps>(address as Buffer);
-            return account.digitalAsset;
+            return codec.toJSON(digitalAssetAccountSchema, account.digitalAsset);
         },
     };
     public reducers = {

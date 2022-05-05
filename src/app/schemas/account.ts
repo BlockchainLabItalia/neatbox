@@ -107,6 +107,7 @@ export const infosSchema = {
 }
 
 export const digitalAssetAccountSchema = {
+	$id: 'lisk/digital_asset/account',
     type: 'object',
     properties: {
         myFiles: {
