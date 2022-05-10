@@ -13,7 +13,7 @@ The project's development is splitted in 3 sections:
 
 The Blockchain used is Lisk; his role is to keep track of the history of an asset, guarantee the ownership and immutability of the information. 
 
-Informations in te blockchain are stored in the [stateStore](https://lisk.com/documentation/lisk-sdk/references/lisk-elements/chain.html#state-store-and-database-mechanism). This has a key-value data structure, and data are stored using [schemas](https://lisk.com/documentation/lisk-sdk/advanced-explanations/schemas.html).
+Informations in the blockchain are stored in the [stateStore](https://lisk.com/documentation/lisk-sdk/references/lisk-elements/chain.html#state-store-and-database-mechanism). This has a key-value data structure, and data are stored using [schemas](https://lisk.com/documentation/lisk-sdk/advanced-explanations/schemas.html).
 
 In our case two keys have been created in the stateStore, with relative schemas.
 
@@ -129,7 +129,7 @@ More info on transactions and how to create them on
   }
   ```
  
-#### 1.2 Le Actions
+#### 1.2 Actions
 
 Actions are read-only operation on the blocchain, and are used to retrieve information about Digital Assets and accounts that made transacions on the blockchain.
 
@@ -159,7 +159,36 @@ More info on how to invoke actions on [this page](https://lisk.com/documentation
   ```
   returns an object of type [digitalAsset](https://github.com/BlockchainLabItalia/neatbox/blob/main/src/app/schemas/digital_asset/digital_asset_types.ts).
   
-  - ##### 1.2.5 digitalAsset:getAssetHistory
+  - ##### 1.2.5 digitalAsset:getAssetDetail
+  
+  receive in input an object of type: 
+  ```
+    {
+      merkleRoot: string  // formato hex
+    }
+  ```
+  returns an object of type:
+  
+  ```
+  {
+      merkleRoot: Buffer,
+      owner: Buffer,
+      hostedBy: Buffer[],
+      requestedBy: {
+        address: Buffer,
+        requestTransaction: Buffer,
+        responseTransaction: Buffer,
+        requestType: string,
+        status: string
+      }[],
+      allowedViewers: {
+        address: Buffer,
+        secret: string
+      }[],
+  }
+  
+  ```
+  - ##### 1.2.6 digitalAsset:getAssetHistory
   
   receive in input an object of type: 
   ```
@@ -168,7 +197,7 @@ More info on how to invoke actions on [this page](https://lisk.com/documentation
     }
   ```
   returns an object of type [registeredAssets](https://github.com/BlockchainLabItalia/neatbox/blob/main/src/app/schemas/digital_asset/digital_asset_types.ts) containing the Digital Asset with the providen merkleRoot and all the previous Digital Asset, in case the ownership of the required Digital Asset changed one or more time.
-  - ##### 1.2.6 digitalAsset:getAccountAssets
+  - ##### 1.2.7 digitalAsset:getAccountAssets
   receive in input an object of type: 
   ```
     {
