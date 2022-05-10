@@ -51,17 +51,6 @@ export class RequestAsset extends BaseAsset {
 			throw new Error("Requester is already the owner of the Asset");
 		}
 		
-		const index: number = chunk.requestedBy.findIndex((t) => (t.address.equals(senderAddress) && t.status !== request_status.rejected));
-		if (index >= 0) {
-			throw new Error("this address has already requested this asset");
-		}
-
-		let senderAccount = await stateStore.account.get<BitagoraAccountProps>(senderAddress);
-		const index_a: number = senderAccount.digitalAsset.pending.findIndex((t) => t.merkleRoot.equals(asset.merkleRoot));
-		if (index_a >= 0) {
-			throw new Error("this Account has already requested this asset");
-		}
-
 		const ro: request_object = {
 			address: senderAddress,
 			requestTransaction: transaction.id,
@@ -69,21 +58,53 @@ export class RequestAsset extends BaseAsset {
 			requestType: asset.mode,
 			status: request_status.pending
 		};
-		chunk.requestedBy.push(ro);
+
+		const index: number = chunk.requestedBy.findIndex((t) => (t.address.equals(senderAddress) && t.status !== request_status.rejected));
+		if (index >= 0) {
+			if (chunk.requestedBy[index].status === request_status.pending) {
+				chunk.requestedBy[index].responseTransaction = transaction.id;
+				chunk.requestedBy[index].status = request_status.cancelled;
+			}
+		} 
+
+		chunk.requestedBy.push(ro)
 
 		const da: digitalAsset = await getAssetByMerkleRoot(stateStore, asset.merkleRoot);
-		senderAccount.digitalAsset.pending.push({
-			fileName: da.fileName,
-			merkleRoot: asset.merkleRoot
-		});
+
+		let senderAccount = await stateStore.account.get<BitagoraAccountProps>(senderAddress);
+		const index_a: number = senderAccount.digitalAsset.pending.findIndex((t) => t.merkleRoot.equals(asset.merkleRoot));
+		if (index_a >= 0) {
+			senderAccount.digitalAsset.pending[index_a] = {
+				fileName: da.fileName,
+				merkleRoot: asset.merkleRoot
+			}
+		} else {
+			senderAccount.digitalAsset.pending.push({
+				fileName: da.fileName,
+				merkleRoot: asset.merkleRoot
+			});
+		}
 		
 		const ownerAccount = await stateStore.account.get<BitagoraAccountProps>(da.owner);
-		ownerAccount.digitalAsset.requested_to_me.push({
-			fileName: da.fileName,
-			merkleRoot: asset.merkleRoot,
-			address: senderAddress,
-			mode: asset.mode
-		})
+
+
+		const index_r: number = ownerAccount.digitalAsset.requested_to_me.findIndex((t) => t.merkleRoot.equals(asset.merkleRoot));
+		if (index_r >= 0) { 
+			ownerAccount.digitalAsset.requested_to_me[index_r] = {
+				fileName: da.fileName,
+				merkleRoot: asset.merkleRoot,
+				address: senderAddress,
+				mode: asset.mode
+			}
+		} else {
+			ownerAccount.digitalAsset.requested_to_me.push({
+				fileName: da.fileName,
+				merkleRoot: asset.merkleRoot,
+				address: senderAddress,
+				mode: asset.mode
+			})
+		}
+
 
 		await updateChunk(stateStore, chunk);
 

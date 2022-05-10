@@ -62,7 +62,7 @@ export class ResponseAsset extends BaseAsset {
 
 		let chunk: chunk = await getChunkByMerkleRoot(stateStore, asset.merkleRoot);
 		
-		const index: number = chunk.requestedBy.findIndex((t) => (t.address.equals(asset.address) && t.status !== request_status.rejected));
+		const index: number = chunk.requestedBy.findIndex((t) => (t.address.equals(asset.address) && t.status !== request_status.rejected && t.status !== request_status.cancelled));
 		if (index < 0) {
 			throw new Error("The address you are trying to send response never asked this asset");
 		}

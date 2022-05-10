@@ -22,7 +22,8 @@ export enum request_type {
 export enum request_status {
 	pending = "PENDING",
 	accepted = "ACCEPTED",
-	rejected = "REJECTED"
+	rejected = "REJECTED",
+	cancelled = "CANCELLED"
 }
 
 export enum response_type {
