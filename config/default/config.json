@@ -2238,7 +2238,7 @@
 			"host": "0.0.0.0",
 			"applicationUrl": "wss://api.neatbox.it/ws",
 			"fee": "0.1",
-			"amount": "100",
+			"amount": "10",
 			"tokenPrefix": "lsk"
 		}
 	}
