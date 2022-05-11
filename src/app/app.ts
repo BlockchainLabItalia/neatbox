@@ -16,7 +16,8 @@ export const getApplication = (
 				pending: [],
 				allowed: [],
 				myFiles: [],
-				requested_to_me: []
+				requested_to_me: [],
+				to_be_claimed: []
 			},
 			infos: {
 				myNeighbors: [],

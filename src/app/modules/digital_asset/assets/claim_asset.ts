@@ -87,6 +87,13 @@ export class ClaimAsset extends BaseAsset {
 		
 		const senderAccount = await stateStore.account.get<BitagoraAccountProps>(senderAddress);
 		
+
+		const index: number = senderAccount.digitalAsset.to_be_claimed.findIndex((t) => (t.merkleRoot.equals(asset.oldMerkleRoot)));
+		if (index<0) {
+			throw new Error("You are not supposed to claim this Asset")
+		}
+		
+		senderAccount.digitalAsset.to_be_claimed.splice(index);
 		senderAccount.digitalAsset.myFiles.push({fileName: digital_asset.fileName, merkleRoot: digital_asset.merkleRoot, secret: asset.newSecret})
 
 		await setNewChunk(stateStore, chunk);

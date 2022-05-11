@@ -110,6 +110,10 @@ export class ResponseAsset extends BaseAsset {
 			} else if(chunk.requestedBy[index].requestType === request_type.ownership){
 				chunk.owner = responseToAccount.address;
 				senderAccount.digitalAsset.myFiles.splice(index_r);
+				senderAccount.digitalAsset.to_be_claimed.push({
+					fileName: req[0].fileName,
+					merkleRoot: asset.merkleRoot,
+				});
 			}
 		} else if(asset.response === response_type.ko) {
 			chunk.requestedBy[index].status = request_status.rejected;

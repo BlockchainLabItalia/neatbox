@@ -30,7 +30,11 @@ export interface BitagoraAccountProps extends BaseAccountProps{
             merkleRoot: Buffer,
             address: Buffer,
             mode: string
-        }[]
+        }[],
+        to_be_claimed: {
+            fileName: string,
+            merkleRoot: Buffer
+        }[],
     }
 }
 
@@ -193,12 +197,30 @@ export const digitalAssetAccountSchema = {
                     },
                 }
             }
-        }
+        },
+        to_be_claimed: {
+            fieldNumber: 5,
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    merkleRoot: {
+                        dataType:'bytes',
+                        fieldNumber: 1
+                    },
+                    fileName: {
+                        dataType:'string',
+                        fieldNumber: 2
+                    }
+                }
+            }
+        },
     },
     default: {
         myFiles: [],
         pending: [],
         allowed: [],
-        requested_to_me: []
+        requested_to_me: [],
+        to_be_claimed: []
     }
 }
