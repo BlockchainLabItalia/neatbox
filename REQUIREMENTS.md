@@ -9,7 +9,7 @@
 | |User can get the IP address and the Port of any storage node|
 | |User can upload a File|
 | |System must encrypt the File using a simmetric key|
-| |System must generate a _secret_, encrypting the simmetric key with his wallet's public key|
+| |System must generate a _secret_, encrypting the simmetric key with user's wallet's public key|
 | |System must split encrypted File into chunks|
 | |Parity chunks must be generated using XOR Operation|
 | |Chunks must be divided and grouped into arrays|
