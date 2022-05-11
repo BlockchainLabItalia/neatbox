@@ -21,4 +21,10 @@
 | |User can request ownership of a Digital Asset|
 | |User can accept or deny received request for a Digital Asset|
 | |Detail about request and response for a Digital Asset are written in the Digigtal Asset|
-| |User that are allowe to access a Digital Asset must be able to download and Descrypt the related File|
+| |User that are allowed to access a Digital Asset must be able to download and Descrypt the related File|
+| |User can Download File related to Digital Asset he own|
+| |When Downloading a Digital Asset, System rebuild encrypted File from chunks|
+| |before rebuilding, System control if a chunk is a parity chunk or not|
+| |before rebuilding, System control if he has all the necessary chunks|
+| |before rebuilding, if some chunks are missing, System control if is possible to restore them using parity chunks|
+| |System Decrypt restored File using secret|
