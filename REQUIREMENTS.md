@@ -2,6 +2,8 @@
 |:---:|----        |
 | |User can create an account|
 | |User can create a wallet|
+| |User can downoad his wallet's credentials|
+| |User can import an existing wallet using his wallet's credentials|
 | |When creating a wallet, some token must be funded to it|
 | |User can buy token to add to his wallet|
 | |User can register his wallet as a neighbor storage node|
@@ -25,6 +27,7 @@
 | |User can retrieve a list of all Digital Assets|
 | |User can retrieve a list of the Digital Assets he owns|
 | |User can retrieve a list of the Digital Assets he requested|
+| |User can retrieve a list of the Digital Assets for wich he received a request|
 | |User can retrieve a list of the Digital Assets he is allowed to view|
 | |User can request access to a Digital Asset|
 | |User can request ownership of a Digital Asset|
