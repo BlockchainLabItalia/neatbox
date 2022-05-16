@@ -22,7 +22,7 @@
 | |Number of arrays that contain chunks must be at most equals to number of neighbor|
 | |Array containing chunks must be sent to neighbor storage node|
 | |User must transfer tokens to the addresses of the neighbors he is sending chunks to, depending on the size and the number of the chunks| 
-| |Uploaded File will be registered on blockchain as Digital Assets|
+| |Uploaded File will be registered on blockchain as Digital Asset|
 | |Digital Asset contain information on: <br> -owner <br>-merkle root <br>-all the request received to access the File <br>-all the users allowed to download and view the File <br>-list of addresses of the storage nodes that host chunks of the File<br>-_secret_ used to encrypt the File|
 | |User can retrieve a list of all Digital Assets|
 | |User can retrieve a list of the Digital Assets he owns|
