@@ -31,6 +31,7 @@
 | |User can retrieve a list of the Digital Assets he is allowed to view|
 | |User can request access to a Digital Asset|
 | |User can request ownership of a Digital Asset|
+| |If a user make a request for a Digital Asset he already requested(but for wich still didn't received a response), the previous request must be set in a 'cancelled' status and only the last one must be eligible for a response|
 | |User can accept or deny received request for a Digital Asset|
 | |Details about requests and responses for a Digital Asset must be written in the Digital Asset|
 | |User that are allowed to access a Digital Asset must be able to download and Descrypt the related File|
