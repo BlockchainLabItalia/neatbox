@@ -93,7 +93,7 @@ export class ClaimAsset extends BaseAsset {
 			throw new Error("You are not supposed to claim this Asset")
 		}
 		
-		senderAccount.digitalAsset.to_be_claimed.splice(index);
+		senderAccount.digitalAsset.to_be_claimed.splice(index,1);
 		senderAccount.digitalAsset.myFiles.push({fileName: digital_asset.fileName, merkleRoot: digital_asset.merkleRoot, secret: asset.newSecret})
 
 		await setNewChunk(stateStore, chunk);

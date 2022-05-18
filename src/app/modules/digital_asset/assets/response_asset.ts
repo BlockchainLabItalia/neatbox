@@ -78,13 +78,13 @@ export class ResponseAsset extends BaseAsset {
 			throw new Error("This address was not expecting responses for this asset")
 		}
 		
-		let req = responseToAccount.digitalAsset.pending.splice(index_a);
+		let req = responseToAccount.digitalAsset.pending.splice(index_a,1);
 
 		const index_b: number = senderAccount.digitalAsset.requested_to_me.findIndex((t) => t.merkleRoot.equals(asset.merkleRoot) && t.address.equals(asset.address));
 		if (index_b<0) {
 			throw new Error("This address did not request this asset")
 		}
-		senderAccount.digitalAsset.requested_to_me.splice(index_b);
+		senderAccount.digitalAsset.requested_to_me.splice(index_b,1);
 
 		if(asset.response === response_type.ok) {
 			chunk.requestedBy[index].status = request_status.accepted;
@@ -109,7 +109,7 @@ export class ResponseAsset extends BaseAsset {
 				})
 			} else if(chunk.requestedBy[index].requestType === request_type.ownership){
 				chunk.owner = responseToAccount.address;
-				senderAccount.digitalAsset.myFiles.splice(index_r);
+				senderAccount.digitalAsset.myFiles.splice(index_r,1);
 				senderAccount.digitalAsset.to_be_claimed.push({
 					fileName: req[0].fileName,
 					merkleRoot: asset.merkleRoot,
