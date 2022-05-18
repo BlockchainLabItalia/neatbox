@@ -1,3 +1,4 @@
+
 # NeatBox
 
 NeatBox è un sistema di storage distribuito di asset digitali. 
@@ -152,6 +153,16 @@ Dettagli su come invocare una actions su [questa pagina](https://lisk.com/docume
         merkleRoot: Buffer;
         secret: string;
     }[];
+    requested_to_me: {
+        fileName: string;
+        merkleRoot: Buffer;
+        address: Buffer;
+        mode: string
+    }[];
+    to_be_claimed: {
+        fileName: string;
+        merkleRoot: Buffer
+    }[]
   ```
   questo oggetto contiene 3 liste rappresentanti i seguenti dati:
   > - pending: la lista di files per i quali l'indirizzo specificato ha inviato una Request;
@@ -159,6 +170,10 @@ Dettagli su come invocare una actions su [questa pagina](https://lisk.com/docume
   > - allowed: la lista di files per i quali l'indirizzo specificato ha richiesto l'accesso (non la proprietà) ed ottenuto l'autorizzazione;
   
   > - myFiles: la lista di files di cui l'indirizzo specificato è il proprietario.
+  
+  > - requested_to_me: la lista di files per i quali ho ricevuto richieste, specificando il tipo di richiesta e l'indirizzo del richiedente.
+  
+  > - to_be_claimed: la lista di files per i quali l'indirizzo specificato ha richiesto la proprietà (non l'accesso) ed ottenuto l'autorizzazione
   
 #### 1.3 Plugins
 
