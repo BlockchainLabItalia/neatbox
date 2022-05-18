@@ -141,7 +141,21 @@ More info on how to invoke actions on [this page](https://lisk.com/documentation
   - ##### 1.2.2 digitalAsset:getAllChunks
   returns an oject of type [registeredChunks](https://github.com/BlockchainLabItalia/neatbox/blob/main/src/app/schemas/chunks/chunk_types.ts) containing the list of all the chunks registered in the stateStore of the blockchain.
   
-  - ##### 1.2.3 digitalAsset:getAsset
+  - ##### 1.2.3 digitalAsset:getAmountOfDigitalAssets
+  return the number of registered Digital Assets.
+  
+  - ##### 1.2.4 digitalAsset:getAllAssetsPaged
+  receive in input an object of type: 
+  ```
+    {
+      elements: number,
+      page: number  
+    }
+  ```
+  
+  return an object of type [registeredAssets](https://github.com/BlockchainLabItalia/neatbox/blob/main/src/app/schemas/digital_asset/digital_asset_types.ts) containing a number of digital assets specified by the value _elements_.
+  
+  - ##### 1.2.5 digitalAsset:getAsset
   receive in input an object of type: 
   ```
     {
@@ -149,7 +163,7 @@ More info on how to invoke actions on [this page](https://lisk.com/documentation
     }
   ```
   return the address of the owner of the Digital Asset as a Buffer.
-  - ##### 1.2.4 digitalAsset:getAssetOwner
+  - ##### 1.2.6 digitalAsset:getAssetOwner
   
   receive in input an object of type: 
   ```
@@ -159,7 +173,7 @@ More info on how to invoke actions on [this page](https://lisk.com/documentation
   ```
   returns an object of type [digitalAsset](https://github.com/BlockchainLabItalia/neatbox/blob/main/src/app/schemas/digital_asset/digital_asset_types.ts).
   
-  - ##### 1.2.5 digitalAsset:getAssetDetail
+  - ##### 1.2.7 digitalAsset:getAssetDetail
   
   receive in input an object of type: 
   ```
@@ -188,7 +202,7 @@ More info on how to invoke actions on [this page](https://lisk.com/documentation
   }
   
   ```
-  - ##### 1.2.6 digitalAsset:getAssetHistory
+  - ##### 1.2.8 digitalAsset:getAssetHistory
   
   receive in input an object of type: 
   ```
@@ -197,7 +211,7 @@ More info on how to invoke actions on [this page](https://lisk.com/documentation
     }
   ```
   returns an object of type [registeredAssets](https://github.com/BlockchainLabItalia/neatbox/blob/main/src/app/schemas/digital_asset/digital_asset_types.ts) containing the Digital Asset with the providen merkleRoot and all the previous Digital Asset, in case the ownership of the required Digital Asset changed one or more time.
-  - ##### 1.2.7 digitalAsset:getAccountAssets
+  - ##### 1.2.9 digitalAsset:getAccountAssets
   receive in input an object of type: 
   ```
     {
@@ -226,9 +240,13 @@ More info on how to invoke actions on [this page](https://lisk.com/documentation
         merkleRoot: Buffer;
         address: Buffer;
         mode: string
+    }[];
+    to_be_claimed: {
+        fileName: string;
+        merkleRoot: Buffer
     }[]
   ```
-  this object contains 4 lists described below:
+  this object contains 5 lists described below:
   > - pending: list of files for which the specified address has sent a Request;
   
   > - allowed: list of files for which the specified address has requested access (not ownership) and obtained authorization;
@@ -236,4 +254,6 @@ More info on how to invoke actions on [this page](https://lisk.com/documentation
   > - myFiles: list of files owned by the specified address.
   
   > - requested_to_me: list of files for which the specified address has received requests, specifying the type of request and the applicant's address.
+  
+  > - to_be_claimed: list of files for which the specified address has requested ownership (not access) and obtained authorization;
  
