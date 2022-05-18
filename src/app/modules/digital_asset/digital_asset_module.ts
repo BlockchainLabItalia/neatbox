@@ -33,7 +33,7 @@ import { ClaimAsset } from "./assets/claim_asset";
 import { CreateAsset } from "./assets/create_asset";
 import { RequestAsset } from "./assets/request_asset";
 import { ResponseAsset } from "./assets/response_asset";
-import { CHAIN_STATE_DIGITAL_ASSETS_COUNTER, _getAllJSONAssets, _getAmountOfDigitalAssets, _getAssetByMerkleRoot, _getAssetHistoryByMerkleRoot } from './utils/assets';
+import { CHAIN_STATE_DIGITAL_ASSETS_COUNTER, _getAllJSONAssets, _getAmountOfDigitalAssets, _getAssetByMerkleRoot, _getAssetHistoryByMerkleRoot, _getJSONAssetsPaged } from './utils/assets';
 import { _getAllJSONChunks, _getChunkByMerkleRoot } from './utils/chunks';
 
 export class DigitalAssetModule extends BaseModule {
@@ -45,6 +45,16 @@ export class DigitalAssetModule extends BaseModule {
         // getBalance: async (params) => this._dataAccess.account.get(params.address).token.balance,
         // getBlockByID: async (params) => this._dataAccess.blocks.get(params.id),
         getAllAssets: async () => _getAllJSONAssets(this._dataAccess),
+        getAllAssetsPaged: async (params: Record<string, unknown>) => {
+            let { elements, page } = params;
+            if (typeof page === 'string' ) {
+                page = Number(page)
+            } 
+            if (typeof elements === 'string' ) {
+                elements = Number(elements)
+            } 
+            _getJSONAssetsPaged(this._dataAccess, elements as number, page as number)
+        },
         getAllChunks: async () => _getAllJSONChunks(this._dataAccess),
         getAmountOfDigitalAssets: async (): Promise<number> => _getAmountOfDigitalAssets(this._dataAccess),
         getAssetHistory:async (params: Record<string, unknown>) => {
