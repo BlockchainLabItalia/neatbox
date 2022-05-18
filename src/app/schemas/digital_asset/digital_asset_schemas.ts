@@ -103,7 +103,7 @@ export const digitalAssetCounterSchema = {
 	required: ["counter"],
 	properties: {
 	  counter: {
-		dataType: "uint64",
+		dataType: "uint32",
 		fieldNumber: 1,
 	  },
 	},
