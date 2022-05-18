@@ -10,6 +10,10 @@ export type digitalAsset = {
 	previousAssetReference: Buffer
 }
 
+export type counter = {
+	counter: number
+}
+
 export type registeredAssets = {
 	registeredAssets: digitalAsset[]
 }

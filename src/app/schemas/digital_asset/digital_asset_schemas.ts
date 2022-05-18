@@ -96,3 +96,15 @@ export const registeredAssetsSchema = {
 	}
 	
 };
+
+export const digitalAssetCounterSchema = {
+	$id: "lisk/digital_asset/counter",
+	type: "object",
+	required: ["counter"],
+	properties: {
+	  counter: {
+		dataType: "uint64",
+		fieldNumber: 1,
+	  },
+	},
+  };

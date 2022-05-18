@@ -1,8 +1,9 @@
-import { BaseAsset, ApplyAssetContext, ValidateAssetContext } from 'lisk-sdk';
+import { BaseAsset, ApplyAssetContext, ValidateAssetContext, codec } from 'lisk-sdk';
 import { BitagoraAccountProps } from '../../../schemas/account';
 import { chunk } from '../../../schemas/chunks/chunk_types';
+import { digitalAssetCounterSchema } from '../../../schemas/digital_asset/digital_asset_schemas';
 import { digitalAsset } from '../../../schemas/digital_asset/digital_asset_types';
-import { setNewAsset } from '../utils/assets';
+import { CHAIN_STATE_DIGITAL_ASSETS_COUNTER, getAmountOfDigitalAssets, setNewAsset } from '../utils/assets';
 import { checkChunkExistenceByMerkleRoot, setNewChunk } from '../utils/chunks';
 
 export type create = {
@@ -94,6 +95,15 @@ export class CreateAsset extends BaseAsset {
 			requestedBy: [],
 			allowedViewers: []
 		} 
+
+		let amountOfDigitalAssets: number = await getAmountOfDigitalAssets(stateStore);
+
+		amountOfDigitalAssets += 1;
+
+		await stateStore.chain.set(
+			CHAIN_STATE_DIGITAL_ASSETS_COUNTER,
+			codec.encode(digitalAssetCounterSchema, {counter: amountOfDigitalAssets})
+		);
 
 		await setNewChunk(stateStore, chunk);
 

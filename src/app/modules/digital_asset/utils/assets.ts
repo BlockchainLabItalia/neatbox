@@ -1,10 +1,10 @@
 import { BaseModuleDataAccess, StateStore } from "lisk-sdk";
 import { codec } from "lisk-sdk";
-import { digitalAsset, registeredAssets } from "../../../schemas/digital_asset/digital_asset_types";
-import { registeredAssetsSchema } from "../../../schemas/digital_asset/digital_asset_schemas";
+import { counter, digitalAsset, registeredAssets } from "../../../schemas/digital_asset/digital_asset_types";
+import { digitalAssetCounterSchema, registeredAssetsSchema } from "../../../schemas/digital_asset/digital_asset_schemas";
 
 export const CHAIN_STATE_DIGITAL_ASSETS = "digitalAsset:registeredAssets";
-
+export const CHAIN_STATE_DIGITAL_ASSETS_COUNTER = "digitalAsset:counter";
 
 export const setNewAsset= async (stateStore: StateStore, asset: digitalAsset) => {
 
@@ -19,6 +19,25 @@ export const setNewAsset= async (stateStore: StateStore, asset: digitalAsset) =>
         codec.encode(registeredAssetsSchema, registeredAssets)
     );
 }
+
+export const getAmountOfDigitalAssets = async (stateStore: StateStore): Promise<number> => {
+
+    let counterBuffer = await stateStore.chain.get(
+        CHAIN_STATE_DIGITAL_ASSETS_COUNTER
+    );
+
+    if (!counterBuffer) {
+        return 0;
+    }
+
+    let counter = codec.decode<counter>(
+        digitalAssetCounterSchema,
+        counterBuffer
+    )
+
+    return counter.counter;
+}
+
 
 export const getAllAssets = async (stateStore: StateStore) => {
     const registeredAssetsBuffer = await stateStore.chain.get(
@@ -93,6 +112,45 @@ export const _getAllJSONAssets =async (dataAccess: BaseModuleDataAccess) => {
     );
     
       return codec.toJSON(registeredAssetsSchema, registeredAssets);
+}
+
+
+
+export const _getAmountOfDigitalAssets = async (dataAccess: BaseModuleDataAccess): Promise<number>  => {
+
+    let counterBuffer = await dataAccess.getChainState(
+        CHAIN_STATE_DIGITAL_ASSETS_COUNTER
+    );
+
+    if (!counterBuffer) {
+        return 0;
+    }
+
+    let counter = codec.decode<counter>(
+        digitalAssetCounterSchema,
+        counterBuffer
+    )
+
+    return counter.counter;
+}
+
+export const _getJSONAssetsPaged =async (dataAccess: BaseModuleDataAccess, elementsPerPage: number, page: number) => {
+    const registeredAssetsBuffer = await dataAccess.getChainState(
+        CHAIN_STATE_DIGITAL_ASSETS
+    );
+    
+    if (!registeredAssetsBuffer) {
+        return [];
+    }
+    
+    const registeredAssets = codec.decode<registeredAssets>(
+        registeredAssetsSchema,
+        registeredAssetsBuffer
+    );
+
+    const new_arr = registeredAssets.registeredAssets.filter(da => registeredAssets.registeredAssets.findIndex(t => t.previousAssetReference === da.merkleRoot)<0)
+
+    return codec.toJSON(registeredAssetsSchema, {registeredAssets: new_arr.slice(elementsPerPage*(page-1), elementsPerPage*page)});
 }
 
 export const _getAssetHistoryByMerkleRoot = async (dataAccess: BaseModuleDataAccess, merkleRoot: Buffer) => {

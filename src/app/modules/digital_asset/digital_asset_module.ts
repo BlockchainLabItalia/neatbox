@@ -27,13 +27,13 @@ import {
 } from 'lisk-sdk';
 import { BitagoraAccountProps, digitalAssetAccountSchema } from '../../schemas/account';
 import { chunkSchema } from '../../schemas/chunks/chunk_schemas';
-import { digitalAssetSchema } from '../../schemas/digital_asset/digital_asset_schemas';
-import { digitalAsset } from '../../schemas/digital_asset/digital_asset_types';
+import { digitalAssetCounterSchema, digitalAssetSchema } from '../../schemas/digital_asset/digital_asset_schemas';
+import { counter, digitalAsset } from '../../schemas/digital_asset/digital_asset_types';
 import { ClaimAsset } from "./assets/claim_asset";
 import { CreateAsset } from "./assets/create_asset";
 import { RequestAsset } from "./assets/request_asset";
 import { ResponseAsset } from "./assets/response_asset";
-import { _getAllJSONAssets, _getAssetByMerkleRoot, _getAssetHistoryByMerkleRoot } from './utils/assets';
+import { CHAIN_STATE_DIGITAL_ASSETS_COUNTER, _getAllJSONAssets, _getAmountOfDigitalAssets, _getAssetByMerkleRoot, _getAssetHistoryByMerkleRoot } from './utils/assets';
 import { _getAllJSONChunks, _getChunkByMerkleRoot } from './utils/chunks';
 
 export class DigitalAssetModule extends BaseModule {
@@ -46,6 +46,7 @@ export class DigitalAssetModule extends BaseModule {
         // getBlockByID: async (params) => this._dataAccess.blocks.get(params.id),
         getAllAssets: async () => _getAllJSONAssets(this._dataAccess),
         getAllChunks: async () => _getAllJSONChunks(this._dataAccess),
+        getAmountOfDigitalAssets: async (): Promise<number> => _getAmountOfDigitalAssets(this._dataAccess),
         getAssetHistory:async (params: Record<string, unknown>) => {
             let { merkleRoot } = params;
             if (!Buffer.isBuffer(merkleRoot) && typeof merkleRoot === 'string') {
@@ -145,5 +146,10 @@ export class DigitalAssetModule extends BaseModule {
     public async afterGenesisBlockApply(_input: AfterGenesisBlockApplyContext) {
         // Get any data from genesis block, for example get all genesis accounts
         // const genesisAccoounts = genesisBlock.header.asset.accounts;
+        const init_value: counter = { counter: 0 }
+        await _input.stateStore.chain.set(
+            CHAIN_STATE_DIGITAL_ASSETS_COUNTER,
+            codec.encode(digitalAssetCounterSchema, init_value)
+        );
     }
 }
