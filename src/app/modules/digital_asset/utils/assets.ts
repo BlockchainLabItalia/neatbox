@@ -150,7 +150,11 @@ export const _getJSONAssetsPaged =async (dataAccess: BaseModuleDataAccess, eleme
 
     const new_arr = registeredAssets.registeredAssets.filter(da => registeredAssets.registeredAssets.findIndex(t => t.previousAssetReference === da.merkleRoot)<0)
 
-    return codec.toJSON(registeredAssetsSchema, {registeredAssets: new_arr.slice(elementsPerPage*(page-1), elementsPerPage*page)});
+    const reg_ass: registeredAssets = {
+        registeredAssets: new_arr.slice(elementsPerPage*(page-1), elementsPerPage*page)
+    }
+
+    return codec.toJSON(registeredAssetsSchema, reg_ass);
 }
 
 export const _getAssetHistoryByMerkleRoot = async (dataAccess: BaseModuleDataAccess, merkleRoot: Buffer) => {

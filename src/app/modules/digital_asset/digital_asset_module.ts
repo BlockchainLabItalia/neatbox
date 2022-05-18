@@ -53,7 +53,7 @@ export class DigitalAssetModule extends BaseModule {
             if (typeof elements === 'string' ) {
                 elements = Number(elements)
             } 
-            _getJSONAssetsPaged(this._dataAccess, elements as number, page as number)
+            return _getJSONAssetsPaged(this._dataAccess, elements as number, page as number);
         },
         getAllChunks: async () => _getAllJSONChunks(this._dataAccess),
         getAmountOfDigitalAssets: async (): Promise<number> => _getAmountOfDigitalAssets(this._dataAccess),
