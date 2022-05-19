@@ -88,8 +88,8 @@ export class RequestAsset extends BaseAsset {
 		const ownerAccount = await stateStore.account.get<BitagoraAccountProps>(da.owner);
 
 
-		const index_r: number = ownerAccount.digitalAsset.requested_to_me.findIndex((t) => t.merkleRoot.equals(asset.merkleRoot));
-		if (index_r >= 0) { 
+		const index_r: number = ownerAccount.digitalAsset.requested_to_me.findIndex((t) => t.merkleRoot.equals(asset.merkleRoot) && t.address.equals(senderAddress));
+		if (index_r >= 0) {  
 			ownerAccount.digitalAsset.requested_to_me[index_r] = {
 				fileName: da.fileName,
 				merkleRoot: asset.merkleRoot,
@@ -104,7 +104,6 @@ export class RequestAsset extends BaseAsset {
 				mode: asset.mode
 			})
 		}
-
 
 		await updateChunk(stateStore, chunk);
 

@@ -111,10 +111,8 @@ export const _getAllJSONAssets =async (dataAccess: BaseModuleDataAccess) => {
         registeredAssetsBuffer
     );
     
-      return codec.toJSON(registeredAssetsSchema, registeredAssets);
+    return codec.toJSON(registeredAssetsSchema, registeredAssets);
 }
-
-
 
 export const _getAmountOfDigitalAssets = async (dataAccess: BaseModuleDataAccess): Promise<number>  => {
 
