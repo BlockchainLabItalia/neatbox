@@ -115,15 +115,15 @@ export const assetHistorySchema = {
 	required: ["merkleRoot", "owner", "requests"],
 	properties: {
 		merkleRoot: {
-			dataType: 'bytes',
+			dataType: "bytes",
 			fieldNumber: 1
 		},
 		owner:{
-			dataType: 'bytes',
+			dataType: "bytes",
 			fieldNumber: 2
 		},
 		requests: {
-			type: 'array',
+			type: "array",
 			fieldNumber: 3,
 			items: {
 				type: "object",
@@ -145,7 +145,7 @@ export const assetHistorySchema = {
 			}
 		},
 		previousVersion: {
-			dataType: 'object',
+			type: 'object',
 			fieldNumber: 4,
 			$ref: "lisk/digital_asset/history"
 		}
