@@ -134,22 +134,23 @@ export const assetHistorySchema = {
 						fieldNumber: 1
 					},
 					mode: {
-						datasType: "string",
+						dataType: "string",
 						fieldNumber: 2
 					},
 					status: {
 						dataType: "string",
 						fieldNumber: 3
-					},
+					}
 				}
 			}
 		},
 		previousVersion: {
 			// type: "object",
-			fieldNumber: 4,
-			$ref: "lisk/digital_asset/history"
+			$ref: "#",
+			fieldNumber: 4
+			// $ref: "lisk/digital_asset/history"
 		}
-	},
+	}
   
 	// $defs: {
 	// 	previousVersion: {
