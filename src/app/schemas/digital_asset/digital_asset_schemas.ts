@@ -130,22 +130,22 @@ export const assetHistorySchema = {
 				required: ["address", "mode", "status"],
 				properties: {
 					address: {
-						dataType: 'bytes',
+						dataType: "bytes",
 						fieldNumber: 1
 					},
 					mode: {
-						dataType: 'string',
+						datasType: "string",
 						fieldNumber: 2
 					},
 					status: {
-						dataType: 'string',
+						dataType: "string",
 						fieldNumber: 3
 					},
 				}
 			}
 		},
 		previousVersion: {
-			type: 'object',
+			// type: "object",
 			fieldNumber: 4,
 			$ref: "lisk/digital_asset/history"
 		}
