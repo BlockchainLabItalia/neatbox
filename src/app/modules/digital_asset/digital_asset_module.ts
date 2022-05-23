@@ -33,7 +33,7 @@ import { ClaimAsset } from "./assets/claim_asset";
 import { CreateAsset } from "./assets/create_asset";
 import { RequestAsset } from "./assets/request_asset";
 import { ResponseAsset } from "./assets/response_asset";
-import { CHAIN_STATE_DIGITAL_ASSETS_COUNTER, _getAllJSONAssets, _getAmountOfDigitalAssets, _getAssetByMerkleRoot, _getAssetHistoryByMerkleRoot, _getJSONAssetsPaged } from './utils/assets';
+import { CHAIN_STATE_DIGITAL_ASSETS_COUNTER, setNewAsset, _getAllJSONAssets, _getAmountOfDigitalAssets, _getAssetByMerkleRoot, _getAssetHistoryByMerkleRoot, _getJSONAssetsPaged } from './utils/assets';
 import { _getAllJSONChunks, _getChunkByMerkleRoot } from './utils/chunks';
 
 export class DigitalAssetModule extends BaseModule {
@@ -160,6 +160,22 @@ export class DigitalAssetModule extends BaseModule {
         await _input.stateStore.chain.set(
             CHAIN_STATE_DIGITAL_ASSETS_COUNTER,
             codec.encode(digitalAssetCounterSchema, init_value)
+        );
+
+
+
+		await setNewAsset(_input.stateStore,
+            {
+                owner: Buffer.alloc(24,"fai finta che non esisto"),
+                fileName: "ignorami",
+                fileSize: 7,
+                fileHash: Buffer.alloc(4,"prov"),
+                merkleRoot: Buffer.alloc(5,"prova"),
+                merkleHeight: 7,
+                secret: "lello",
+                transactionID: Buffer.alloc(0),
+                previousAssetReference: Buffer.alloc(0)
+            }
         );
     }
 }

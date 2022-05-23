@@ -145,55 +145,7 @@ export const assetHistorySchema = {
 			}
 		},
 		previousVersion: {
-			// type: "object",
-			$ref: "#",
-			fieldNumber: 4
-			// $ref: "lisk/digital_asset/history"
+			$ref: "#"
 		}
 	}
-  
-	// $defs: {
-	// 	previousVersion: {
-	// 		$id: "lisk/digital_asset/previousVersion",
-	// 		type: "object",
-	// 		required: ["merkleRoot", "owner", "requests"],
-	// 		properties: {
-	// 			merkleRoot: {
-	// 				dataType: 'bytes',
-	// 				fieldNumber: 1
-	// 			},
-	// 			owner:{
-	// 				dataType: 'bytes',
-	// 				fieldNumber: 2
-	// 			},
-	// 			requests: {
-	// 				type: 'array',
-	// 				fieldNumber: 3,
-	// 				items: {
-	// 					type: "object",
-	// 					required: ["address", "mode", "status"],
-	// 					properties: {
-	// 						address: {
-	// 							dataType: 'bytes',
-	// 							fieldNumber: 1
-	// 						},
-	// 						mode: {
-	// 							dataType: 'string',
-	// 							fieldNumber: 2
-	// 						},
-	// 						status: {
-	// 							dataType: 'string',
-	// 							fieldNumber: 3
-	// 						},
-	// 					}
-	// 				}
-	// 			},
-	// 			previousVersion: {
-	// 				dataType: 'object',
-	// 				fieldNumber: 4,
-	// 				$ref: "lisk/digital_asset/previousVersion" 
-	// 			}
-	//   		}
-	// 	}
-  	// }
 }
