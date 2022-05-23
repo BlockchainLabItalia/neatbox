@@ -10,6 +10,19 @@ export type digitalAsset = {
 	previousAssetReference: Buffer
 }
 
+export type digitalAssetHistory = {
+	merkleRoot: Buffer,
+	owner: Buffer,
+	requests: request[],
+	previousVersion: digitalAssetHistory | null
+}
+
+export type request = {
+	address: Buffer,
+	mode: string,
+	status: string
+}
+
 export type counter = {
 	counter: number
 }

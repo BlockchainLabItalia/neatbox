@@ -1,7 +1,8 @@
 import {  BaseModuleDataAccess, StateStore } from "lisk-sdk";
 import { codec } from "lisk-sdk";
 import { registeredChunksSchema } from "../../../schemas/chunks/chunk_schemas";
-import { chunk, registered_chunks } from "../../../schemas/chunks/chunk_types";
+import { chunk, registered_chunks, request_object } from "../../../schemas/chunks/chunk_types";
+import { request } from "../../../schemas/digital_asset/digital_asset_types";
 
 export const CHAIN_STATE_CHUNKS = "digitalAsset:registeredChunks";
 
@@ -117,5 +118,39 @@ export const _getAllJSONChunks =async (dataAccess: BaseModuleDataAccess) => {
     );
     
       return codec.toJSON(registeredChunksSchema, registeredChunks);
+}
+
+export const getAssetRequests = async (dataAccess: BaseModuleDataAccess, merkleRoot: Buffer): Promise<request[]> => {
+    const registeredChunksBuffer = await dataAccess.getChainState(
+        CHAIN_STATE_CHUNKS
+    );
+    
+    if (!registeredChunksBuffer) {
+        return [];
+    }
+
+    const registeredChunks = codec.decode<registered_chunks>(
+        registeredChunksSchema,
+        registeredChunksBuffer
+    );
+
+    const c_index: number = registeredChunks.chunks.findIndex((t) => t.merkleRoot.equals(merkleRoot));
+
+    if (c_index < 0) {
+        throw new Error("Asset not found");
+    }
+
+    const requestedBy: request_object[] = registeredChunks.chunks[c_index].requestedBy;
+    let requests: request[] = [];
+
+    requestedBy.forEach((req) => {
+        requests.push({
+            address: req.address,
+            mode: req.requestType,
+            status: req.status
+        })
+    })
+
+    return requests;
 }
 

@@ -41,19 +41,21 @@ describe('RequestAsset', () => {
 	describe('apply', () => {
 		let stateStore: StateStore;
 		let account: Account<BitagoraAccountProps>;
+		let account2: Account<BitagoraAccountProps>;
 		let context: ApplyAssetContext<request>;
 		let test_registered_assets: registeredAssets;
 		let test_registered_chunks: registered_chunks;
 
 		beforeEach(() => {
 			account = testing.fixtures.createDefaultAccount<BitagoraAccountProps>([DigitalAssetModule]);
+			account2 = testing.fixtures.createDefaultAccount<BitagoraAccountProps>([DigitalAssetModule]);
 			//account.my_files = account.pending = account.hosted_files = account.my_neighbors = [];
 			
 			test_registered_assets = 
 			{
 				registeredAssets: [
 					{
-						owner: Buffer.alloc(5,'jonny'),
+						owner: account2.address,
 						fileName: 'prova_1',
 						fileSize: 1,
 						fileHash: Buffer.alloc(7, 'prova_1'),
@@ -64,7 +66,7 @@ describe('RequestAsset', () => {
 						previousAssetReference: Buffer.alloc(0)
 					},
 					{
-						owner: Buffer.alloc(5,'jonny'),
+						owner: account2.address,
 						fileName: 'prova_2',
 						fileSize: 1,
 						fileHash: Buffer.alloc(7, 'prova_2'),
@@ -75,7 +77,7 @@ describe('RequestAsset', () => {
 						previousAssetReference: Buffer.alloc(0)
 					},
 					{
-						owner: Buffer.alloc(5,'jonny'),
+						owner: account2.address,
 						fileName: 'prova_3',
 						fileSize: 1,
 						fileHash: Buffer.alloc(7, 'prova_2'),
@@ -104,7 +106,7 @@ describe('RequestAsset', () => {
 				chunks: [
 					{
 						merkleRoot: Buffer.alloc(7, 'prova_1'),
-						owner: Buffer.alloc(5,'jonny'),
+						owner: account2.address,
 						hostedBy: [],
 						requestedBy: [{
 							address: Buffer.alloc(5, 'mario'),
@@ -117,7 +119,7 @@ describe('RequestAsset', () => {
 					},
 					{
 						merkleRoot: Buffer.alloc(7, 'prova_2'),
-						owner: Buffer.alloc(5,'jonny'),
+						owner: account2.address,
 						hostedBy: [],
 						requestedBy: [{
 							address: account.address,
@@ -130,7 +132,7 @@ describe('RequestAsset', () => {
 					},
 					{
 						merkleRoot: Buffer.alloc(7, 'prova_3'),
-						owner: Buffer.alloc(5,'jonny'),
+						owner: account2.address,
 						hostedBy: [],
 						requestedBy: [],
 						allowedViewers: [],
@@ -146,7 +148,7 @@ describe('RequestAsset', () => {
 			}
 		
 			stateStore = new testing.mocks.StateStoreMock({
-				accounts: [account],
+				accounts: [account, account2],
 				chain: {
 					"digitalAsset:registeredAssets": codec.encode(registeredAssetsSchema, test_registered_assets),
 					"digitalAsset:registeredChunks": codec.encode(registeredChunksSchema, test_registered_chunks)

@@ -1,7 +1,8 @@
 import { BaseModuleDataAccess, StateStore } from "lisk-sdk";
 import { codec } from "lisk-sdk";
-import { counter, digitalAsset, registeredAssets } from "../../../schemas/digital_asset/digital_asset_types";
-import { digitalAssetCounterSchema, registeredAssetsSchema } from "../../../schemas/digital_asset/digital_asset_schemas";
+import { counter, digitalAsset, digitalAssetHistory, registeredAssets } from "../../../schemas/digital_asset/digital_asset_types";
+import { assetHistorySchema, digitalAssetCounterSchema, registeredAssetsSchema } from "../../../schemas/digital_asset/digital_asset_schemas";
+import { getAssetRequests } from "./chunks";
 
 export const CHAIN_STATE_DIGITAL_ASSETS = "digitalAsset:registeredAssets";
 export const CHAIN_STATE_DIGITAL_ASSETS_COUNTER = "digitalAsset:counter";
@@ -171,24 +172,44 @@ export const _getAssetHistoryByMerkleRoot = async (dataAccess: BaseModuleDataAcc
     );
     const DAs = registeredAssets.registeredAssets;
 
-    let related_assets: digitalAsset[] = []
-    let index = -1;
-    let asset: digitalAsset;
+    let history: digitalAssetHistory | null = await retrieveHistory(dataAccess, DAs, merkleRoot);
 
-    while(!merkleRoot.equals(Buffer.alloc(0))) {
-        
-        index = DAs.findIndex((t) => t.merkleRoot.equals(merkleRoot));
+    if(!history) {
+        const index = DAs.findIndex((t) => t.merkleRoot.equals(merkleRoot));
 
         if (index < 0) {
             throw new Error("Asset not found");
         }
+        history = {
+            merkleRoot: merkleRoot,
+            owner: DAs[index].owner,
+            requests: [],
+            previousVersion: null
+        }
+    };
 
-        asset = DAs[index];
-        related_assets.push(asset);
+    console.log(history)
+    return codec.toJSON(assetHistorySchema, history);
+}
 
-        merkleRoot = asset.previousAssetReference;
+const retrieveHistory = async (dataAccess: BaseModuleDataAccess, assets: digitalAsset[], merkleRoot: Buffer): Promise<digitalAssetHistory | null> => {
+    
+    if (merkleRoot.equals(Buffer.alloc(0))) {
+        return null;
     }
 
-    return codec.toJSON(registeredAssetsSchema, {registeredAssets: related_assets});
-    //return related_assets;
+    const index = assets.findIndex((t) => t.merkleRoot.equals(merkleRoot));
+
+    if (index < 0) {
+        throw new Error("Asset not found");
+    }
+
+    const asset = assets[index];
+
+    return {
+        merkleRoot: merkleRoot,
+        owner: asset.owner,
+        requests: await getAssetRequests(dataAccess, merkleRoot),
+        previousVersion: await retrieveHistory(dataAccess, assets, asset.previousAssetReference)
+    }
 }

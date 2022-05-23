@@ -9,7 +9,7 @@ Object {
       "fieldNumber": 1,
     },
     "port": Object {
-      "dataType": "unit32",
+      "dataType": "uint32",
       "fieldNumber": 2,
     },
   },
