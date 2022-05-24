@@ -145,6 +145,7 @@ export const assetHistorySchema = {
 			}
 		},
 		previousVersion: {
+			fieldNumber: 4,
 			$ref: "#"
 		}
 	}
