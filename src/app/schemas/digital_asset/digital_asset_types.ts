@@ -14,7 +14,7 @@ export type digitalAssetHistory = {
 	merkleRoot: Buffer,
 	owner: Buffer,
 	requests: request[],
-	previousVersion: digitalAssetHistory | null
+	//previousVersion: digitalAssetHistory | null
 }
 
 export type request = {

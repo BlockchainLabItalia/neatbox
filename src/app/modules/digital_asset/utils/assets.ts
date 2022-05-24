@@ -184,7 +184,7 @@ export const _getAssetHistoryByMerkleRoot = async (dataAccess: BaseModuleDataAcc
             merkleRoot: merkleRoot,
             owner: DAs[index].owner,
             requests: [],
-            previousVersion: null
+            //previousVersion: null
         }
     };
 
@@ -210,6 +210,6 @@ const retrieveHistory = async (dataAccess: BaseModuleDataAccess, assets: digital
         merkleRoot: merkleRoot,
         owner: asset.owner,
         requests: await getAssetRequests(dataAccess, merkleRoot),
-        previousVersion: await retrieveHistory(dataAccess, assets, asset.previousAssetReference)
+        //previousVersion: await retrieveHistory(dataAccess, assets, asset.previousAssetReference)
     }
 }
