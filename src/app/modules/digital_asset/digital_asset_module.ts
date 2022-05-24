@@ -34,7 +34,7 @@ import { CreateAsset } from "./assets/create_asset";
 import { RequestAsset } from "./assets/request_asset";
 import { ResponseAsset } from "./assets/response_asset";
 import { CHAIN_STATE_DIGITAL_ASSETS_COUNTER, setNewAsset, _getAllJSONAssets, _getAmountOfDigitalAssets, _getAssetByMerkleRoot, _getAssetHistoryByMerkleRoot, _getJSONAssetsPaged } from './utils/assets';
-import { _getAllJSONChunks, _getChunkByMerkleRoot } from './utils/chunks';
+import { setNewChunk, _getAllJSONChunks, _getChunkByMerkleRoot } from './utils/chunks';
 
 export class DigitalAssetModule extends BaseModule {
     public actions = {
@@ -177,5 +177,36 @@ export class DigitalAssetModule extends BaseModule {
                 previousAssetReference: Buffer.alloc(0)
             }
         );
+
+        await setNewChunk(_input.stateStore, {
+			owner: Buffer.alloc(24,"fai finta che non esisto"),
+			merkleRoot: Buffer.alloc(5,"prova"),
+			hostedBy: [],
+			requestedBy: [],
+			allowedViewers: []
+		} );
+
+        await setNewAsset(_input.stateStore,
+            {
+                owner: Buffer.alloc(5,"lillo"),
+                fileName: "ignorami_2",
+                fileSize: 7,
+                fileHash: Buffer.alloc(7,"provola"),
+                merkleRoot: Buffer.alloc(4,"test"),
+                merkleHeight: 7,
+                secret: "lollo",
+                transactionID: Buffer.alloc(0),
+                previousAssetReference: Buffer.alloc(5,"prova")
+            }
+        );
+
+        await setNewChunk(_input.stateStore, {
+			owner: Buffer.alloc(5,"lillo"),
+			merkleRoot: Buffer.alloc(5,"prova"),
+			hostedBy: [],
+			requestedBy: [],
+			allowedViewers: []
+		} );
+
     }
 }
