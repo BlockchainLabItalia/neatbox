@@ -202,7 +202,7 @@ export class DigitalAssetModule extends BaseModule {
 
         await setNewChunk(_input.stateStore, {
 			owner: Buffer.alloc(5,"lillo"),
-			merkleRoot: Buffer.alloc(5,"prova"),
+			merkleRoot: Buffer.alloc(4,"test"),
 			hostedBy: [],
 			requestedBy: [],
 			allowedViewers: []
