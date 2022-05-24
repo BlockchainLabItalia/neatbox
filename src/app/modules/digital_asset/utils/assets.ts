@@ -172,7 +172,7 @@ export const _getAssetHistoryByMerkleRoot = async (dataAccess: BaseModuleDataAcc
     );
     const DAs = registeredAssets.registeredAssets;
 
-    let history: digitalAssetHistory | null = await retrieveHistory(dataAccess, DAs, merkleRoot);
+    let history: digitalAssetHistory = await retrieveHistory(dataAccess, DAs, merkleRoot);
 
     if(!history) {
         const index = DAs.findIndex((t) => t.merkleRoot.equals(merkleRoot));
@@ -183,8 +183,7 @@ export const _getAssetHistoryByMerkleRoot = async (dataAccess: BaseModuleDataAcc
         history = {
             merkleRoot: merkleRoot,
             owner: DAs[index].owner,
-            requests: [],
-            //previousVersion: null
+            requests: []
         }
     };
 
@@ -192,11 +191,11 @@ export const _getAssetHistoryByMerkleRoot = async (dataAccess: BaseModuleDataAcc
     return codec.toJSON(assetHistorySchema, history);
 }
 
-const retrieveHistory = async (dataAccess: BaseModuleDataAccess, assets: digitalAsset[], merkleRoot: Buffer): Promise<digitalAssetHistory | null> => {
+const retrieveHistory = async (dataAccess: BaseModuleDataAccess, assets: digitalAsset[], merkleRoot: Buffer): Promise<digitalAssetHistory> => {
     
-    if (merkleRoot.equals(Buffer.alloc(0))) {
-        return null;
-    }
+    // if (merkleRoot.equals(Buffer.alloc(0))) {
+    //     return null;
+    // }
 
     const index = assets.findIndex((t) => t.merkleRoot.equals(merkleRoot));
 
@@ -205,11 +204,17 @@ const retrieveHistory = async (dataAccess: BaseModuleDataAccess, assets: digital
     }
 
     const asset = assets[index];
-
+    if (asset.previousAssetReference.equals(Buffer.alloc(0))) {
+        return {
+            merkleRoot: merkleRoot,
+            owner: asset.owner,
+            requests: await getAssetRequests(dataAccess, merkleRoot)
+        };
+    }
     return {
         merkleRoot: merkleRoot,
         owner: asset.owner,
         requests: await getAssetRequests(dataAccess, merkleRoot),
-        //previousVersion: await retrieveHistory(dataAccess, assets, asset.previousAssetReference)
+        previousVersion: await retrieveHistory(dataAccess, assets, asset.previousAssetReference)
     }
 }

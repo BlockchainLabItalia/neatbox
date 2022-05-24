@@ -144,8 +144,8 @@ export const assetHistorySchema = {
 				}
 			}
 		},
-		// previousVersion: {
-		// 	$ref: "#"
-		// }
+		previousVersion: {
+			$ref: "#"
+		}
 	}
 }
