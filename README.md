@@ -203,14 +203,31 @@ More info on how to invoke actions on [this page](https://lisk.com/documentation
   
   ```
   - ##### 1.2.8 digitalAsset:getAssetHistory
-  
+  - 
   receive in input an object of type: 
   ```
     {
       merkleRoot: string  // formato hex
     }
   ```
-  returns an object of type [registeredAssets](https://github.com/BlockchainLabItalia/neatbox/blob/main/src/app/schemas/digital_asset/digital_asset_types.ts) containing the Digital Asset with the providen merkleRoot and all the previous Digital Asset, in case the ownership of the required Digital Asset changed one or more time.
+  returns an object of type:
+  
+  ```
+    
+  digitalAssetHistory = {
+      merkleRoot: string,
+      owner: string,
+      requests: {
+          address: string,
+          mode: string,
+          status: string
+      }[],
+      previousVersion?: digitalAssetHistory
+  }
+
+  ```
+  in this way the informations of the assets before every change of ownership are nested in the field _previousVersion_ while all the requests with relative status are put in the field _requets_ of the corresponding version.
+  
   - ##### 1.2.9 digitalAsset:getAccountAssets
   receive in input an object of type: 
   ```
