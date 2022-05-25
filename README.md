@@ -203,7 +203,6 @@ More info on how to invoke actions on [this page](https://lisk.com/documentation
   
   ```
   - ##### 1.2.8 digitalAsset:getAssetHistory
-  - 
   receive in input an object of type: 
   ```
     {
