@@ -1,4 +1,4 @@
-import {  BaseModuleDataAccess, StateStore } from "lisk-sdk";
+import {  BaseModuleDataAccess, cryptography, StateStore } from "lisk-sdk";
 import { codec } from "lisk-sdk";
 import { registeredChunksSchema } from "../../../schemas/chunks/chunk_schemas";
 import { chunk, registered_chunks, request_object } from "../../../schemas/chunks/chunk_types";
@@ -145,7 +145,7 @@ export const getAssetRequests = async (dataAccess: BaseModuleDataAccess, merkleR
 
     requestedBy.forEach((req) => {
         requests.push({
-            address: req.address,
+            address: cryptography.getBase32AddressFromAddress(req.address),
             mode: req.requestType,
             status: req.status
         })

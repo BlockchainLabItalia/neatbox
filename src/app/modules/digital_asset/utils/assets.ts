@@ -1,7 +1,7 @@
-import { BaseModuleDataAccess, StateStore } from "lisk-sdk";
+import {  BaseModuleDataAccess, cryptography, StateStore } from "lisk-sdk";
 import { codec } from "lisk-sdk";
 import { counter, digitalAsset, digitalAssetHistory, registeredAssets } from "../../../schemas/digital_asset/digital_asset_types";
-import { assetHistorySchema, digitalAssetCounterSchema, registeredAssetsSchema } from "../../../schemas/digital_asset/digital_asset_schemas";
+import { digitalAssetCounterSchema, registeredAssetsSchema } from "../../../schemas/digital_asset/digital_asset_schemas";
 import { getAssetRequests } from "./chunks";
 
 export const CHAIN_STATE_DIGITAL_ASSETS = "digitalAsset:registeredAssets";
@@ -147,7 +147,7 @@ export const _getJSONAssetsPaged =async (dataAccess: BaseModuleDataAccess, eleme
         registeredAssetsBuffer
     );
 
-    const new_arr = registeredAssets.registeredAssets.filter(da => registeredAssets.registeredAssets.findIndex(t => t.previousAssetReference === da.merkleRoot)<0)
+    const new_arr = registeredAssets.registeredAssets.filter(da => registeredAssets.registeredAssets.findIndex(t => t.previousAssetReference.equals(da.merkleRoot))<0)
 
     const reg_ass: registeredAssets = {
         registeredAssets: new_arr.slice(elementsPerPage*(page-1), elementsPerPage*page)
@@ -181,14 +181,15 @@ export const _getAssetHistoryByMerkleRoot = async (dataAccess: BaseModuleDataAcc
             throw new Error("Asset not found");
         }
         history = {
-            merkleRoot: merkleRoot,
-            owner: DAs[index].owner,
+            merkleRoot: merkleRoot.toString('hex'),
+            owner: cryptography.getBase32AddressFromAddress(DAs[index].owner),
             requests: []
         }
     };
 
     console.log(history)
-    return codec.toJSON(assetHistorySchema, history);
+    return history
+    //return codec.toJSON(assetHistorySchema, history);
 }
 
 const retrieveHistory = async (dataAccess: BaseModuleDataAccess, assets: digitalAsset[], merkleRoot: Buffer): Promise<digitalAssetHistory> => {
@@ -206,14 +207,14 @@ const retrieveHistory = async (dataAccess: BaseModuleDataAccess, assets: digital
     const asset = assets[index];
     if (asset.previousAssetReference.equals(Buffer.alloc(0))) {
         return {
-            merkleRoot: merkleRoot,
-            owner: asset.owner,
+            merkleRoot: merkleRoot.toString('hex'),
+            owner: cryptography.getBase32AddressFromAddress(asset.owner),
             requests: await getAssetRequests(dataAccess, merkleRoot)
         };
     }
     return {
-        merkleRoot: merkleRoot,
-        owner: asset.owner,
+        merkleRoot: merkleRoot.toString('hex'),
+        owner: cryptography.getBase32AddressFromAddress(asset.owner),
         requests: await getAssetRequests(dataAccess, merkleRoot),
         previousVersion: await retrieveHistory(dataAccess, assets, asset.previousAssetReference)
     }

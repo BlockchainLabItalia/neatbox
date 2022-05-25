@@ -11,14 +11,14 @@ export type digitalAsset = {
 }
 
 export type digitalAssetHistory = {
-	merkleRoot: Buffer,
-	owner: Buffer,
+	merkleRoot: string,
+	owner: string,
 	requests: request[],
 	previousVersion?: digitalAssetHistory
 }
 
 export type request = {
-	address: Buffer,
+	address: string,
 	mode: string,
 	status: string
 }
